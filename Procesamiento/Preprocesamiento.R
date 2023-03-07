@@ -5,7 +5,7 @@ library(rmarkdown)
 library(tidyr)
 
 #Metemos los datos en una variable auxiliar
-Empleo  <-  Survey.on.Employment.Trends..2
+Empleo  <-  Survey
 
 #Borramos los Na ya que son solo 3
 Empleo <- drop_na(Empleo)
@@ -65,11 +65,11 @@ Empleo <- Empleo %>%
 #Vamos a discretizar la variable Work.Experience
 
 ##0-2 <- Fresher
-Empleo[Empleo == "1-2years" & !is.na(Empleo)]<- "Fresher"
-Empleo[Empleo == "Doing Intership" & !is.na(Empleo)]<- "Fresher"
+Empleo[Empleo == "1-2years"]<- "Fresher"
+Empleo[Empleo == "Doing Intership"]<- "Fresher"
 
 ##3-4 <- Junior
-Empleo[Empleo == "3+ years" & !is.na(Empleo)]<- "Junior"
+Empleo[Empleo == "3+ years"]<- "Junior"
 
 ##+5 <- Senior
 #Considerando que no hay otro tipo de valores, todo lo que no sea Fresher
@@ -89,19 +89,19 @@ Empleo$Work.experience[!(Empleo$Work.experience == "Fresher" |
 #Sacamos todos los datos diferentes
 unique(unlist(Empleo$Job.search.problems.grouped))
 
-Auxi <- c("No problems ","No problems",
-          "Still not looking for jobs actively",
-          "I haven't applied for any. ","Nothing ",
-          " interviewer not handsome ", "Good oppurtunities")
 
-for (x in Auxi) {
+for (x in c("No problems ","No problems",
+            "Still not looking for jobs actively",
+            "I haven't applied for any. ","Nothing ",
+            " interviewer not handsome ", "Good oppurtunities")
+    ) {
   Empleo$Job.search.problems.grouped <- gsub(x,"Nothing",
                                              Empleo$Job.search.problems.grouped)
 }
 
-Auxi <- c("Lack of experience","Fear of English"," network slow at home")
 
-for (x in Auxi) {
+
+for (x in c("Lack of experience","Fear of English"," network slow at home")) {
   Empleo$Job.search.problems.grouped <- gsub(x,"My thing",
                                              Empleo$Job.search.problems.grouped)
 }
@@ -109,73 +109,56 @@ for (x in Auxi) {
 
 unique(unlist(Empleo$Dream.company.type.grouped))
 
-Auxi <- c("Google","Multinationals ","multinational companies",
-          "Apple","Amazon","MNC")
 
-for (x in Auxi) {
+for (x in c("Google","Multinationals ","multinational companies",
+            "Apple","Amazon","MNC")) {
   Empleo$Dream.company.type.grouped <- gsub(x,"Multinational",
                                              Empleo$Dream.company.type.grouped)
 }
 
-Auxi <- c("Both","Both ","All types ")
-
-for (x in Auxi) {
+for (x in c("Both","Both ","All types ")) {
   Empleo$Dream.company.type.grouped <- gsub(x,"Both",
                                             Empleo$Dream.company.type.grouped)
 }
 
-Auxi <- c("Product based","Interior design ")
-
-for (x in Auxi) {
+for (x in c("Product based","Interior design ")) {
   Empleo$Dream.company.type.grouped <- gsub(x,"Specific",
                                             Empleo$Dream.company.type.grouped)
 }
 
 unique(unlist(Empleo$Job.finder))
 
-Auxi <- c("Other ")
-
-for (x in Auxi) {
+for (x in c("Other ")) {
   Empleo$Job.finder <- gsub(x,"Other",Empleo$Job.finder)
 }
 
+
 unique(unlist(Empleo$Studies))
 
-
-
-Auxi <- c("BSC physics","Bsc Physics ","Bsc physics ")
-
-for (x in Auxi) {
+for (x in c("BSC physics","Bsc Physics ","Bsc physics ")) {
   Empleo$Studies <- gsub(x,"Bachelor of Science in Physics",
                                  Empleo$Studies)
 }
 
-Auxi <- c("M.tech","Mtech","M. tech")
-
-for (x in Auxi) {
+for (x in c("M.tech","Mtech","M. tech")) {
   Empleo$Studies <- gsub(x,"Master of Technology",
                                  Empleo$Studies)
 }
 
-Auxi <- c("BVOC IN SOFTWARE DEVELOPMENT ","bvoc in software development",
-          "Bvoc in software development","B.voc Software development ",
-          "BVOC SOFTWARE DEVELOPMENT ","BVOC in software development ",
-          "BVOC IT IN SOFTWARE DEVELOPMENT ","Bvoc IT")
 
-for (x in Auxi) {
+for (x in c("BVOC IN SOFTWARE DEVELOPMENT ","bvoc in software development",
+            "Bvoc in software development","B.voc Software development ",
+            "BVOC SOFTWARE DEVELOPMENT ","BVOC in software development ",
+            "BVOC IT IN SOFTWARE DEVELOPMENT ","Bvoc IT")) {
   Empleo$Studies<- gsub(x,"Bachelor of Vocational Studies in Software Development",
                                  Empleo$Studies)
 }
 
-Auxi <- c("Msc","MSc")
-
-for (x in Auxi) {
+for (x in c("Msc","MSc")) {
   Empleo$Studies <- gsub(x,"Master of Science",Empleo$Studies)
 }
 
-Auxi <- c("Diploma ","diploma","Diploma")
-
-for (x in Auxi) {
+for (x in c("Diploma ","diploma","Diploma")) {
   Empleo$Studies <- gsub(x,"Diploma",Empleo$Studies)
 }
 
@@ -240,68 +223,50 @@ unique(unlist(Empleo$Interested.in.grouped))
 
 Empleo$Interested.in.grouped[grep("Python", Empleo$Interested.in.grouped)] <- "Python"
 
-Auxi <- c("Medical","Medicine","Nursing")
-
-for (x in Auxi) {
+for (x in c("Medical","Medicine","Nursing")) {
   Empleo$Interested.in.grouped <- gsub(x,"Medical",Empleo$Interested.in.grouped)
 }
 
-Auxi <- c("Accounts and Art Field","Admin","Aerospace engineering ",
-          "Construction field","Embedded programming ","Engineering Design ",
-          "Govt services","HR","Interior Designing","IT","Life science",
-          "Love without work","Mechanical Design","Mechanical Engineering ",
-          "QA- testing ","Interior designing 'autocad designing","Other ")
-
-for (x in Auxi) {
+for (x in c("Accounts and Art Field","Admin","Aerospace engineering ",
+            "Construction field","Embedded programming ","Engineering Design ",
+            "Govt services","HR","Interior Designing","IT","Life science",
+            "Love without work","Mechanical Design","Mechanical Engineering ",
+            "QA- testing ","Interior designing 'autocad designing","Other ")) {
   Empleo$Interested.in.grouped <- gsub(x,"Other",Empleo$Interested.in.grouped)
 }
 
 
-
 unique(unlist(Empleo$Skills.grouped))
 
-Auxi <- c("Wordpress","Css"," html","web designing ","html"," css","Rivet",
-          " bootstrap","Angular","front-end development","Dotnet")
-
-for (x in Auxi) {
+for (x in c("Wordpress","Css"," html","web designing ","html"," css","Rivet",
+            " bootstrap","Angular","front-end development","Dotnet")) {
   Empleo$Skills.grouped <- gsub(x,"WebPages",Empleo$Skills.grouped)
 }
 
-Auxi <- c("cad","Autocad ","Design","CREO Design Software","autocad",
-          "CAD/CAM","AutoDesign ","autoDesign")
-
-for (x in Auxi) {
+for (x in c("cad","Autocad ","Design","CREO Design Software","autocad",
+            "CAD/CAM","AutoDesign ","autoDesign")) {
   Empleo$Skills.grouped <- gsub(x,"Design",Empleo$Skills.grouped)
 }
 
-Auxi <- c(" MATLAB","Tableau ","Power BI","Powerbi")
-
-for (x in Auxi) {
+for (x in c(" MATLAB","Tableau ","Power BI","Powerbi")) {
   Empleo$Skills.grouped <- gsub(x,"Data Analysis",Empleo$Skills.grouped)
 }
 
-Auxi <- c("Nursing","Driving "," editing "," electronics","Digital marketing",
-          "Tally prime ")
 
-for (x in Auxi) {
+for (x in c("Nursing","Driving "," editing "," electronics","Digital marketing",
+            "Tally prime ")) {
   Empleo$Skills.grouped <- gsub(x,"Other",Empleo$Skills.grouped)
 }
 
-Auxi <- c("Aspen","HTRI")
-
-for (x in Auxi) {
+for (x in c("Aspen","HTRI")) {
   Empleo$Skills.grouped <- gsub(x,"Simulator",Empleo$Skills.grouped)
 }
 
-Auxi <- c("Excel","Sql","Database")
-
-for (x in Auxi) {
+for (x in c("Excel","Sql","Database")) {
   Empleo$Skills.grouped <- gsub(x,"Database",Empleo$Skills.grouped)
 }
 
-Auxi <- c("Python","C","c++"," embedded systems"," embedded c")
-
-for (x in Auxi) {
+for (x in c("Python","C","c++"," embedded systems"," embedded c")) {
   Empleo$Skills.grouped <- gsub(x,"Programming Languages",Empleo$Skills.grouped,fixed=TRUE)
 }
 
@@ -322,12 +287,3 @@ Empleo <- Empleo %>%
          Interested.in              = strsplit(Empleo$Interested.in , '/'),
          Interested.in.grouped      = strsplit(Empleo$Interested.in.grouped , '/')
         )
-
-
-
-unique(unlist(Empleo$Job.search.problems.grouped))
-
-
-
-
-

@@ -21,3 +21,16 @@ pages
 metadata-for-sharing
 corazao
 miscelánea
+agrupar
+agrupación
+agonaruin-yor-frenshi
+work.experience
+job.search.problems.grouped
+dream.company.type.grouped
+job.finder
+estudies
+grouped.by.level
+grouped.by.field
+interested.in.grouped
+skills.grouped
+análisis-y-visualización-de-datos
