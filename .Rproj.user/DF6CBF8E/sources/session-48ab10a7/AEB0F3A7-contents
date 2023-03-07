@@ -1,0 +1,51 @@
+# Preprocesamiento (el bicheo)
+
+Esta parte nos servirá para el resto de capítulos.
+
+Por ahora usaremos esas librerías, cuando necesitemos más, las iremos indicando
+
+    library(dplyr)
+    library(magrittr)
+    library(ggplot2)
+    library(rmarkdown)
+    library(tidyr)
+
+Cargamos también el dataset y lo metemos en una variable
+
+    Empleo <- read.csv("path/archivo.csv")
+
+## Miscelánea
+
+Borramos las filas que contengan "Na" ya que son solo 3
+
+   `Empleo <- drop_na(Empleo)`
+
+Borramos la columna "Timestamp" y "X" (email) porque no nos da ningún tipo
+de información
+
+   `Empleo <- Empleo %>% select(-c(Timestamp,X))`
+   
+Acortamos el nombre de varias columnas para que nos sea más sencillo trabajar
+con ellas
+
+```
+Empleo <- Empleo %>%
+           rename("Still.Studying" = Are.you.still.studying.,
+                  "Studies"        = Educational.Qualification,
+                  "Is.degree.must.4.job" = Do.you.believe.degree.is.a.must.for.job.,
+                  "Career.break"         = Did.you.have.a.career.break.,
+                  "Career.switch"        = Did.you.switch.your.career.,
+                  "Career.shift"         = Reason.for.shift.in.career.,
+                  "Applying.4.job"       = Are.you.actively.applying.for.job.,
+                  "Skills"               = Skills.that.you.are.confident,
+                  "Personal.projects"    = Have.you.carried.out.any.independent.works.or.projects.,
+                  "Job.finder"           = Where.do.you.search.for.Job.,
+                  "Recruiter.response.you" = Are.you.receiving.response.from.recruiter.after.applying.,
+                  "Job.search.problems"    = What.are.the.problems.faced.while.job.search.,
+                  "Interested.in.freelance" = Are.you.interested.in.Freelancing.,
+                  "Interested.in"           = Interested.area.of.work
+                 )
+```
+
+## Agrupar
+

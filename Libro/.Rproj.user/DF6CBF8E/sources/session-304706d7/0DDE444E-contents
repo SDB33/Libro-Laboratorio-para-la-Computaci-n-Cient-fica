@@ -1,0 +1,19 @@
+# Preprocesamiento (el bicheo)
+
+Esta parte nos servirá para el resto de capítulos.
+
+Por ahora usaremos esas librerías, cuando necesitemos más, las iremos indicando
+
+```
+library(dplyr)
+library(magrittr)
+library(ggplot2)
+library(rmarkdown)
+library(tidyr)
+```
+Cargamos también el dataset y lo metemos en una variable
+
+```
+Empleo <- read.csv("path/archivo.csv")
+```
+
