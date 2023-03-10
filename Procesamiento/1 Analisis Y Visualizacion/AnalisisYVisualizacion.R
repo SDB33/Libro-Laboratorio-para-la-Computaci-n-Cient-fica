@@ -7,7 +7,10 @@ library(tidyr)
 
 #¿Cuáles son las páginas más usadas para la búsqueda de empleo?
 
-table(unlist(Empleo$Job.finder))[order(table(unlist(Empleo$Job.finder)),decreasing = TRUE)]
+auxi <- table(unlist(Empleo$Job.finder))
+auxi <- auxi[order(auxi,decreasing = TRUE)]
+
+ggplot(as.data.frame(auxi), aes(x=Var1, y = Freq)) + geom_bar(stat="identity")
 
 #SuperJueves
 
@@ -37,7 +40,71 @@ auxi <- inner_join(auxi, (Empleo %>%
 #hay que decir también que estos  datos son "de juguete" pueden estar más que
 #perfectamente sesgados o simplemente ser tan pequeños que no muestran nada
 
-   
+
+
+ggplot(auxi, aes(x = unlist(Studies.grouped.by.field), y = Hombres )) + 
+  geom_col()  + 
+  coord_flip()
+
+ggplot(auxi, aes(x = unlist(Studies.grouped.by.field), y = -Mujeres)) + 
+  geom_col()  + 
+  coord_flip()
+  
+
+####Marital Status and interested in freelance
+
+auxi <- Empleo %>% 
+  select(Marital.status, Interested.in.freelance) %>%
+  group_by(Marital.status, Interested.in.freelance) %>%
+  summarise( numero = n()) 
+
+
+auxi[[3]][which(auxi$Marital.status == "Married")] = 
+  (auxi[[3]][which(auxi$Marital.status == "Married")])/sum(auxi[[3]][which(auxi$Marital.status == "Married")])
+
+
+auxi[[3]][which(auxi$Marital.status == "Single")] = 
+  (auxi[[3]][which(auxi$Marital.status == "Single")])/sum(auxi[[3]][which(auxi$Marital.status == "Single")])
+
+auxi <- auxi[-4,]
+
+
+ggplot(auxi, aes(x = unlist(Marital.status), y = numero, colour = Interested.in.freelance)) + 
+   geom_point()
+
+#Tampoco hay diferencias muy reseñables aunque sí que es cierto que, ligeramente,
+#hay mayor porcentaje de personas casadas que están seguras de que no quieren
+ #ser freelance y, por el contrario, hay más personas solteras que están pensando
+ #si hacerlo.
 
 
 
+#Y entre la edad y ser freelance?
+
+auxi <- Empleo %>% 
+  select(Age.group, Interested.in.freelance) %>%
+  group_by(Age.group, Interested.in.freelance) %>%
+  summarise( numero = n()) 
+
+
+auxi[[3]][which(auxi$Age.group == "<25")] = 
+  (auxi[[3]][which(auxi$Age.group == "<25")])/sum(auxi[[3]][which(auxi$Age.group == "<25")])
+
+
+auxi[[3]][which(auxi$Age.group == "25-30")] = 
+  (auxi[[3]][which(auxi$Age.group == "25-30")])/sum(auxi[[3]][which(auxi$Age.group == "25-30")])
+
+auxi[[3]][which(auxi$Age.group == "31-40")] = 
+  (auxi[[3]][which(auxi$Age.group == "31-40")])/sum(auxi[[3]][which(auxi$Age.group == "31-40")])
+
+
+
+ggplot(auxi, aes(x = unlist(Age.group), y = numero, colour = Interested.in.freelance)) + 
+  geom_point()
+
+#Aquí ya sí podemos notar cierta separación que coincide más o menos con los datos esperados
+#los más jóvenes son los más proclives a ser freelances (diferencia entre "Yes" y "No" mayor)
+#Los de 25-30 años tienen tanto el mísmo interés en serlo como en no serlo y los de 31-40
+#sorprendentemente tienen el porcentaje más alto de personas que quieren ser freelancers con casi un
+# 60%
+#reitero que todo esto considerando que son datos de juguete
