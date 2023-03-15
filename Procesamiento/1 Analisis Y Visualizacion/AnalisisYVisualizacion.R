@@ -17,7 +17,7 @@ ggplot(as.data.frame(auxi), aes(x="", y=Freq, fill=Var1)) +
 
 #¿Cuáles son las competencias que más tienen las personas encuestadas?
 
-auxi <- table(unlist(Empleo$Skills.grouped))
+auxi <- table(unlist(Empleo$Skills))
 auxi <- auxi[order(auxi,decreasing = TRUE)]
 
 
@@ -172,8 +172,6 @@ auxi[[4]][which(auxi$Currently.employed == "No" & auxi$Still.Studying == "No")] 
 
 auxi[[4]][which(auxi$Currently.employed == "No" & auxi$Still.Studying == "Yes")] = 
   (auxi[[4]][which(auxi$Currently.employed == "No" & auxi$Still.Studying == "Yes")])/sum(auxi[[4]][which(auxi$Currently.employed == "No" & auxi$Still.Studying == "Yes")])
-
-
 
 
 auxi[[4]][which(auxi$Currently.employed == "Yes" & auxi$Still.Studying == "No")] = 
