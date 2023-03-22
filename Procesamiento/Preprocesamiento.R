@@ -3,6 +3,7 @@ library(magrittr)
 library(ggplot2)
 library(rmarkdown)
 library(tidyr)
+library(fcaR)
 
 #Metemos los datos en una variable auxiliar
 Empleo  <-  Survey
@@ -15,7 +16,24 @@ Empleo <- drop_na(Empleo)
 Empleo <- Empleo %>%
   select(-c(Timestamp,X,Name))
 
-Empleo$Is.degree.must.4.job[Empleo$Is.degree.must.4.job == ""] <- "Maybe"
+#Vamos a borrar la columna "Where.are.you.from" porque, aunque podría ser
+#muy interesante y reflejar muchos datos, lo primero es que India se subdivide
+#en estados que se suddividen a su vez en distritos; cada persona ha puesto
+#cosas diferentes algunos han puesto su ciudad, otros han puesto el estado
+#otros el distrito y algunos una mezcla, no han especificado lo que han puesto
+#y hay distritos con el mismo nombre de ciudades y de estados.
+#Luego, si intentamos discretizar por estados salen muy pocos y absurdamente
+#centrados en Kerala y si lo hacemos por distritos salen demasiados.
+
+Empleo <- Empleo %>%
+  select(-Where.are.you.from.)
+
+
+Empleo$Do.you.believe.degree.is.a.must.for.job.[
+  Empleo$Do.you.believe.degree.is.a.must.for.job. == ""
+  ] <- "Maybe"
+
+
 
 #Vamos a acortar el nombre de varias columnas 
 Empleo <- Empleo %>%
@@ -45,7 +63,7 @@ Empleo <- Empleo %>%
 
 #Cambiamos el orden para que esrudios por nivel y campo estén juntos
 Empleo <- Empleo %>%
-        select(1:6, 24,7:23) 
+        select(1:5, 23,6:22) 
 
 
 #Vamos a discretizar la variable Work.Experience
@@ -258,15 +276,262 @@ for (x in c("Python","C","c++"," embedded systems"," embedded c")) {
 }
 
 
+##Para terminar vamos a binarizar los datos
+fc_Empleo <- FormalContext$new(Empleo)
 
-##Vamos a convertir las columnas que tienen variables con un string con varias
-#opciones por un vector
-Empleo <- Empleo %>%
-  mutate(Job.search.problems = strsplit(Empleo$Job.search.problems, ";|,"),
-         Job.finder          = strsplit(Empleo$Job.finder , ";|,"),
-         Job.preference      = strsplit(Empleo$Job.preference , ";|,"),
-         Skills              = strsplit(Empleo$Skills , ";|,"),
-         Dream.company.type = strsplit(Empleo$Dream.company.type, ";|,"),
-         Studies.grouped.by.field   = strsplit(Empleo$Studies.grouped.by.field , ";|,"),
-         Interested.in              = strsplit(Empleo$Interested.in , '/'),
-        )
+for (x in names(Empleo)) {fc_Empleo$scale(x,type = "nominal")}
+
+Emple01 <- as.data.frame(t(as.matrix(fc_Empleo$I)))
+
+
+#Ahora tenemos el problema de que todos aquellos valores de la forma:
+# respuesta1;respuesta2 son puestos en una columna nueva así que 
+#debemos ponerlos en sus columnas correspondientes y borrar la columna
+
+
+names(Emple01)[grep(",",names(Emple01))]
+
+Emple01$`Studies.grouped.by.field = Art`[which(Emple01$`Studies.grouped.by.field = Art;Business` == 1)] <- 1
+Emple01$`Studies.grouped.by.field = Business`[which(Emple01$`Studies.grouped.by.field = Art;Business` == 1)] <- 1
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;` == 1)] <- 1
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Database` == 1)] <- 1
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Database` == 1)] <- 1
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Database;Other;Data Analysis` == 1)] <- 1
+Emple01$`Skills = Other` [which(Emple01$`Skills = Database;Database;Other;Data Analysis` == 1)] <- 1
+Emple01 <- Emple01 %>%
+  rename(`Skills = Data Analysis` =`Skills = Database;Database;Other;Data Analysis`)
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Other` == 1)] <- 1
+Emple01$`Skills = Other`[which(Emple01$`Skills = Database;Other` == 1)] <- 1
+
+
+Emple01$`Skills = Database` [which(Emple01$`Skills = Database;Other,WebPages` == 1)  ] <- 1
+Emple01$`Skills = Other`[which(Emple01$`Skills = Database;Other,WebPages` == 1)  ] <- 1
+Emple01$`Skills = WebPages`[which(Emple01$`Skills = Database;Other,WebPages` == 1)  ] <- 1
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Programming Languages` == 1)  ] <- 1
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Database;Programming Languages` == 1)  ] <- 1
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Programming Languages;Database` == 1)  ] <- 1
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Database;Programming Languages;Database` == 1)  ] <- 1
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Programming Languages;Database;Data Analysis` == 1)] <- 1
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Database;Programming Languages;Database;Data Analysis` == 1)] <- 1
+Emple01$`Skills = Data Analysis`[which(Emple01$`Skills = Database;Programming Languages;Database;Data Analysis` == 1)] <- 1
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Programming Languages;Database;Other` == 1) ] <- 1
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Database;Programming Languages;Database;Other` == 1) ] <- 1
+Emple01$`Skills = Other`[which(Emple01$`Skills = Database;Programming Languages;Database;Other` == 1) ] <- 1
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Programming Languages;Design,Data Analysis` == 1)] <- 1
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Database;Programming Languages;Design,Data Analysis` == 1)] <- 1
+Emple01$`Skills = Design`[which(Emple01$`Skills = Database;Programming Languages;Design,Data Analysis` == 1)] <- 1
+Emple01$`Skills = Data Analysis`[which(Emple01$`Skills = Database;Programming Languages;Design,Data Analysis` == 1)] <- 1
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Programming Languages;Other` == 1)] <- 1
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Database;Programming Languages;Other` == 1)] <- 1
+Emple01$`Skills = Other`[which(Emple01$`Skills = Database;Programming Languages;Other` == 1)] <- 1
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Programming Languages;WebPages` == 1) ] <- 1
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Database;Programming Languages;WebPages` == 1) ] <- 1
+Emple01$`Skills = WebPages`[which(Emple01$`Skills = Database;Programming Languages;WebPages` == 1) ] <- 1
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;Simulator,Simulator,Design` == 1)] <- 1
+Emple01$`Skills = Design`[which(Emple01$`Skills = Database;Simulator,Simulator,Design` == 1)] <- 1
+Emple01 <- Emple01 %>%
+  rename(`Skills = Simulator` =`Skills = Database;Simulator,Simulator,Design`)
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;WebPages,Design` == 1)] <- 1
+Emple01$`Skills = WebPages`[which(Emple01$`Skills = Database;WebPages,Design` == 1)] <- 1
+Emple01$`Skills = Design`[which(Emple01$`Skills = Database;WebPages,Design` == 1)] <- 1
+
+
+Emple01$`Skills = Database`[which(Emple01$`Skills = Database;WebPages,WebPages` == 1)] <- 1
+Emple01$`Skills = WebPages`[which(Emple01$`Skills = Database;WebPages,WebPages` == 1)] <- 1
+
+
+Emple01$`Skills = Other`[which(Emple01$`Skills = Other;Design,Other` == 1)] <- 1
+Emple01$`Skills = Design`[which(Emple01$`Skills = Other;Design,Other` == 1)] <- 1
+
+
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Other;Programming Languages,Programming Languages,Other,Programming Languages,Programming Languages,` == 1)] <- 1
+Emple01$`Skills = Other`[which(Emple01$`Skills = Other;Programming Languages,Programming Languages,Other,Programming Languages,Programming Languages,` == 1)] <- 1
+
+
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Programming Languages;Database` == 1)] <- 1
+Emple01$`Skills = Database`[which(Emple01$`Skills = Programming Languages;Database` == 1)] <- 1
+
+
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Programming Languages;Database;Other` == 1)] <- 1
+Emple01$`Skills = Database`[which(Emple01$`Skills = Programming Languages;Database;Other` == 1)] <- 1
+Emple01$`Skills = Other`[which(Emple01$`Skills = Programming Languages;Database;Other` == 1)] <- 1
+
+
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Programming Languages;Other` == 1)] <- 1
+Emple01$`Skills = Other`[which(Emple01$`Skills = Programming Languages;Other` == 1)] <- 1
+
+
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Programming Languages;Other;WebPages,WebPages,WebPages` == 1)] <- 1
+Emple01$`Skills = Other`[which(Emple01$`Skills = Programming Languages;Other;WebPages,WebPages,WebPages` == 1)] <- 1
+Emple01$`Skills = WebPages`[which(Emple01$`Skills = Programming Languages;Other;WebPages,WebPages,WebPages` == 1)] <- 1
+
+
+Emple01$`Skills = Programming Languages`[which(Emple01$`Skills = Programming Languages;WebPages,WebPages` == 1)] <- 1
+Emple01$`Skills = WebPages`[which(Emple01$`Skills = Programming Languages;WebPages,WebPages` == 1)] <- 1
+
+
+Emple01$`Job.preference = Business`[which(Emple01$`Job.preference = Government;Business` == 1)] <- 1
+Emple01$`Job.preference = Government`[which(Emple01$`Job.preference = Government;Business` == 1)] <- 1
+
+
+Emple01$`Job.preference = Private`[which(Emple01$`Job.preference = Government;Private` == 1)] <- 1
+Emple01$`Job.preference = Government`[which(Emple01$`Job.preference = Government;Private` == 1)] <- 1
+
+
+Emple01$`Job.preference = Business`[which(Emple01$`Job.preference = Government;Private;Business` == 1)] <- 1
+Emple01$`Job.preference = Government`[which(Emple01$`Job.preference = Government;Private;Business` == 1)] <- 1
+Emple01$`Job.preference = Private`[which(Emple01$`Job.preference = Government;Private;Business` == 1)] <- 1
+
+
+Emple01$`Job.preference = Business`[which(Emple01$`Job.preference = Private;Business` == 1)] <- 1
+Emple01$`Job.preference = Private`[which(Emple01$`Job.preference = Private;Business` == 1)] <- 1
+
+
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Linkedin;` == 1)] <- 1
+
+Emple01$`Job.finder = Indeed`[which(Emple01$`Job.finder = Linkedin;Indeed` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Linkedin;Indeed` == 1)] <- 1
+
+
+Emple01$`Job.finder = Indeed`[which(Emple01$`Job.finder = Linkedin;Indeed;Monster` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Linkedin;Indeed;Monster` == 1)] <- 1
+Emple01$`Job.finder = Monster`[which(Emple01$`Job.finder = Linkedin;Indeed;Monster` == 1)] <- 1
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin` == 1)] <- 1
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin;` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin;` == 1)] <- 1
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin;Fiverr` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin;Fiverr` == 1)] <- 1
+Emple01 <- Emple01 %>%
+  rename(`Job.finder = Fiverr` =`Job.finder = Naukri;Linkedin;Fiverr`)
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed` == 1)] <- 1
+Emple01$`Job.finder = Indeed`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed` == 1)] <- 1
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;` == 1)] <- 1
+Emple01$`Job.finder = Indeed`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;` == 1)] <- 1
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Google` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Google` == 1)] <- 1
+Emple01$`Job.finder = Indeed`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Google` == 1)] <- 1
+Emple01$`Job.finder = Other`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Google` == 1)] <- 1
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster` == 1)] <- 1
+Emple01$`Job.finder = Indeed`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster` == 1)] <- 1
+Emple01$`Job.finder = Monster`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster` == 1)] <- 1
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster;` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster;` == 1)] <- 1
+Emple01$`Job.finder = Indeed`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster;` == 1)] <- 1
+Emple01$`Job.finder = Monster`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster;` == 1)] <- 1
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Instagram, Facebook ` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Instagram, Facebook ` == 1)] <- 1
+Emple01$`Job.finder = Indeed`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Instagram, Facebook ` == 1)] <- 1
+Emple01 <- Emple01 %>%
+  rename(`Job.finder = Social.Nets` =`Job.finder = Naukri;Linkedin;Indeed;Instagram, Facebook `)
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster;Hirist` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster;Hirist` == 1)] <- 1
+Emple01$`Job.finder = Indeed`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster;Hirist` == 1)] <- 1
+Emple01$`Job.finder = Monster`[which(Emple01$`Job.finder = Naukri;Linkedin;Indeed;Monster;Hirist` == 1)] <- 1
+Emple01 <- Emple01 %>%
+  rename(`Job.finder = Hirist` =`Job.finder = Naukri;Linkedin;Indeed;Monster;Hirist`)
+
+
+Emple01$`Job.finder = Naukri`[which(Emple01$`Job.finder = Naukri;Linkedin;Monster` == 1)] <- 1
+Emple01$`Job.finder = Linkedin`[which(Emple01$`Job.finder = Naukri;Linkedin;Monster` == 1)] <- 1
+Emple01$`Job.finder = Monster`[which(Emple01$`Job.finder = Naukri;Linkedin;Monster` == 1)] <- 1
+
+
+Emple01$`Job.search.problems = My thing`[which(Emple01$`Job.search.problems = My thing;No response from recruiter` == 1)] <- 1
+Emple01$`Job.search.problems = No response from recruiter`[which(Emple01$`Job.search.problems = My thing;No response from recruiter` == 1)] <- 1
+
+
+Emple01$`Job.search.problems = My thing`[which(Emple01$`Job.search.problems = My thing,My thing,Nothing` == 1)] <- 1
+Emple01$`Job.search.problems = Nothing`[which(Emple01$`Job.search.problems = My thing,My thing,Nothing` == 1)] <- 1
+
+
+Emple01$`Dream.company.type = Multinational,Multinational,Multinational`[which(Emple01$`Dream.company.type = Multinational,Multinational,Multinational` == 1)] <- 1
+
+Emple01 <- Emple01 %>% 
+  select(-c(`Studies.grouped.by.field = Art;Business`,
+            `Skills = Database;`,
+            `Skills = Database;Database`,
+            `Skills = Database;Other`,
+            `Skills = Database;Other,WebPages`,
+            `Skills = Database;Programming Languages`,
+            `Skills = Database;Programming Languages;Database`,
+            `Skills = Database;Programming Languages;Database;Data Analysis`,
+            `Skills = Database;Programming Languages;Database;Other`,
+            `Skills = Database;Programming Languages;Design,Data Analysis`,
+            `Skills = Database;Programming Languages;Other`,
+            `Skills = Database;Programming Languages;WebPages`,
+            `Skills = Database;WebPages,Design`,
+            `Skills = Database;WebPages,WebPages`,
+            `Skills = Other;Design,Other`,
+            `Skills = Other;Programming Languages,Programming Languages,Other,Programming Languages,Programming Languages,`,
+            `Skills = Programming Languages;Database`,
+            `Skills = Programming Languages;Database;Other`,
+            `Skills = Programming Languages;Other`,
+            `Skills = Programming Languages;Other;WebPages,WebPages,WebPages`,
+            `Skills = Programming Languages;WebPages,WebPages`,
+            `Job.preference = Government;Business`,
+            `Job.preference = Government;Private`,
+            `Job.preference = Government;Private;Business`,
+            `Job.preference = Private;Business`,
+            `Job.finder = Linkedin;`,
+            `Job.finder = Linkedin;Indeed`,
+            `Job.finder = Linkedin;Indeed;Monster`,
+            `Job.finder = Naukri;Linkedin`,
+            `Job.finder = Naukri;Linkedin;`,
+            `Job.finder = Naukri;Linkedin;Indeed`,
+            `Job.finder = Naukri;Linkedin;Indeed;`,
+            `Job.finder = Naukri;Linkedin;Indeed;Google`,
+            `Job.finder = Naukri;Linkedin;Indeed;Monster`,
+            `Job.finder = Naukri;Linkedin;Indeed;Monster;`,
+            `Job.finder = Naukri;Linkedin;Monster`,
+            `Job.search.problems = My thing;No response from recruiter`,
+            `Job.search.problems = My thing,My thing,Nothing`,
+            `Dream.company.type = Multinational,Multinational,Multinational`))
+
+
