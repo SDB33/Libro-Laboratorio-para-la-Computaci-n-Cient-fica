@@ -13,6 +13,8 @@ Empleo <- drop_na(Empleo)
 
 #Borramos la columna "Timestamp", "X" y "Nombre" porque no nos da ningún tipo
 #de información
+rownames(Empleo) <- Empleo$Name
+
 Empleo <- Empleo %>%
   select(-c(Timestamp,X,Name))
 
