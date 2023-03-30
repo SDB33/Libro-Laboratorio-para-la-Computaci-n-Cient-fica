@@ -535,3 +535,15 @@ Emple01 <- Emple01 %>%
             `Dream.company.type = Multinational,Multinational,Multinational`))
 
 
+Emple01 <- Emple01 %>% mutate_all(as.logical)
+#Para tener los datos mejor
+
+Empleo <- Empleo %>%
+  mutate(Job.search.problems = strsplit(Empleo$Job.search.problems, ";|,"),
+         Job.finder          = strsplit(Empleo$Job.finder , ";|,"),
+         Job.preference      = strsplit(Empleo$Job.preference , ";|,"),
+         Skills              = strsplit(Empleo$Skills , ";|,"),
+         Dream.company.type = strsplit(Empleo$Dream.company.type, ";|,"),
+         Studies.grouped.by.field   = strsplit(Empleo$Studies.grouped.by.field , ";|,"),
+         Interested.in              = strsplit(Empleo$Interested.in , '/'),
+  )
