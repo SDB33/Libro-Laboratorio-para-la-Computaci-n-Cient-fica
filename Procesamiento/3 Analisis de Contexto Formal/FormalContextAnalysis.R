@@ -14,10 +14,17 @@ fc_Empleo$reduce(TRUE)
 fc_Empleo$find_concepts()
 
 
-fc_Empleo$concepts$support()[order(fc_Empleo$concepts$support(),decreasing = TRUE)]
-
-
 fc_Empleo$concepts[which(fc_Empleo$concepts$support()>0.5)]
+
+
+
+
+
+fc_Empleo$find_implications()
+
+
+
+
 
 
 
