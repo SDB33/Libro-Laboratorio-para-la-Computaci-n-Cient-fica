@@ -26,6 +26,6 @@ fc_Empleo$find_implications()
 
 
 
-
+fc_Empleo$implications$recommend()
 
 
