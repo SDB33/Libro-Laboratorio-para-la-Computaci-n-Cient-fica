@@ -42,4 +42,29 @@ ggplot(as.data.frame(auxi), aes(x="", y=Freq, fill=Var1)) +
   coord_polar("y", start=0) + 
   labs(fill = "Buscadores", x = " ", y = " ")
 
-#Sus estudios están entre los cursados
+grep("Business",unlist(Empleo$Studies.grouped.by.field))
+
+auxi <- unlist(Empleo$Studies.grouped.by.field)
+
+length(grep("Business",auxi))/length(auxi)
+length(grep("Art",auxi))/length(auxi)
+
+
+
+#Sus estudios están entre los menos cursados
+
+
+
+auxi <- unlist(Empleo$Skills)
+
+length(grep("Other",auxi))/length(auxi)
+length(grep("Design",auxi))/length(auxi)
+
+
+auxi <- table( unlist(Empleo$Skills))
+auxi <- auxi[order(auxi,decreasing = TRUE)]
+
+ggplot(as.data.frame(auxi), aes(x="", y=Freq, fill=Var1)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) + 
+  labs(fill = "Buscadores", x = " ", y = " ")
