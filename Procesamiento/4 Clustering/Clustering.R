@@ -22,49 +22,42 @@ fviz_cluster(kmedias,Emple01, geom = "point")
 fviz_cluster(kmedias,Emple01)
 
 
-#Haider Abdullah, Shafeeque, Mary Rathna y Athulya Kp son
-
-grep("Haider", rownames(Emple01))
+#Haider Abdullah, Shafeeque, Mary Rathna y Athulya Kp son outliers
 
 
-triti <- Emple01 %>% 
-  slice(32) %>%
-  select(which(Emple01 %>% slice(32) == 1))
+
+auxi2 <- 0
+for (x in c(1:92)) {
+  
+ auxi <-  (Emple01 %>%
+    select(which(Emple01 %>% slice(x) == 1)) %>%
+    sapply(sum))/92
+
+  auxi2 <- c(auxi2,mean(auxi))
+}
+
+
+auxi <-  as.data.frame(list(
+  Nombres = rownames(Emple01),
+  Medias = auxi2[-1]
+))
+
+auxi %>%
+  arrange(Medias) %>%
+  slice(1:5)
+
+
 
 #¿Qué hace que Haider Abdullah sea un outlier?
 
 
-auxi <- table(unlist(Empleo$Studies.grouped.by.field))
-auxi <- auxi[order(auxi,decreasing = TRUE)]
-
-ggplot(as.data.frame(auxi), aes(x="", y=Freq, fill=Var1)) +
-  geom_bar(stat="identity", width=1) +
-  coord_polar("y", start=0) + 
-  labs(fill = "Buscadores", x = " ", y = " ")
-
-grep("Business",unlist(Empleo$Studies.grouped.by.field))
-
-auxi <- unlist(Empleo$Studies.grouped.by.field)
-
-length(grep("Business",auxi))/length(auxi)
-length(grep("Art",auxi))/length(auxi)
+Emple01 <-  Emple01 %>%
+  slice(-c(grep("Haider Abdullah", rownames(Emple01)),
+           grep("Shafeeque", rownames(Emple01)),
+           grep("Mary Rathna K M", rownames(Emple01)),
+           grep("Athulya kp", rownames(Emple01))))
 
 
 
-#Sus estudios están entre los menos cursados
 
-
-
-auxi <- unlist(Empleo$Skills)
-
-length(grep("Other",auxi))/length(auxi)
-length(grep("Design",auxi))/length(auxi)
-
-
-auxi <- table( unlist(Empleo$Skills))
-auxi <- auxi[order(auxi,decreasing = TRUE)]
-
-ggplot(as.data.frame(auxi), aes(x="", y=Freq, fill=Var1)) +
-  geom_bar(stat="identity", width=1) +
-  coord_polar("y", start=0) + 
-  labs(fill = "Buscadores", x = " ", y = " ")
+        
