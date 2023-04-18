@@ -1,6 +1,6 @@
 library(cluster)
 library(factoextra)
-
+library(dendextend)   
 
 Emple01 <- Emple01 %>% mutate_all(as.numeric)
 
@@ -14,12 +14,16 @@ fviz_nbclust(x = Emple01,
              k.max = 10)
 
 
-kmedias <- kmeans(Emple01, centers=1, nstart=2,iter.max = 300)
+kmedias <- kmeans(Emple01, centers=1, nstart=1,iter.max = 300)
 
 fviz_cluster(kmedias,Emple01, geom = "point")
 
 #Vemos que es un grupo muy homogéneo
 fviz_cluster(kmedias,Emple01)
+
+Emple01 %>% 
+  dist(method = "euclidean") %>%
+  fviz_dist()
 
 
 #Haider Abdullah, Shafeeque, Mary Rathna y Athulya Kp son outliers
@@ -27,14 +31,16 @@ fviz_cluster(kmedias,Emple01)
 
 
 auxi2 <- 0
-for (x in c(1:92)) {
+for (x in c(1:length(rownames(Emple01)))) {
   
  auxi <-  (Emple01 %>%
     select(which(Emple01 %>% slice(x) == 1)) %>%
-    sapply(sum))/92
+    sapply(sum))/length(rownames(Emple01))
 
   auxi2 <- c(auxi2,mean(auxi))
 }
+
+
 
 
 auxi <-  as.data.frame(list(
@@ -47,9 +53,7 @@ auxi %>%
   slice(1:5)
 
 
-
-#¿Qué hace que Haider Abdullah sea un outlier?
-
+#Los quitamos
 
 Emple01 <-  Emple01 %>%
   slice(-c(grep("Haider Abdullah", rownames(Emple01)),
@@ -58,6 +62,12 @@ Emple01 <-  Emple01 %>%
            grep("Athulya kp", rownames(Emple01))))
 
 
+#Dendogramas
 
 
-        
+#Representación del dendrograma
+fviz_dend(x = hclust(d = dist(x = Emple01, method = "euclidean"),
+                     method = "complete"), k = 10)
+
+
+
