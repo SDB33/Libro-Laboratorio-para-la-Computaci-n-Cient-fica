@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 4 Reglas de Asociación | Trasteando con R</title>
+  <meta name="description" content="Trabajo perteneciente a la asignatura de Laboratorio de Computación Científica" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 4 Reglas de Asociación | Trasteando con R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Trabajo perteneciente a la asignatura de Laboratorio de Computación Científica" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 4 Reglas de Asociación | Trasteando con R" />
+  
+  <meta name="twitter:description" content="Trabajo perteneciente a la asignatura de Laboratorio de Computación Científica" />
+  
+
+<meta name="author" content="Salvador Durán Borrego" />
+
+
+<meta name="date" content="2023-05-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="análisis-y-visualización-de-datos.html"/>
+<link rel="next" href="análisis-de-contexto-formal.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html"><i class="fa fa-check"></i><b>2</b> Preprocesamiento (el bicheo)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#miscelánea"><i class="fa fa-check"></i><b>2.1</b> Miscelánea</a></li>
+<li class="chapter" data-level="2.2" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#agrupación"><i class="fa fa-check"></i><b>2.2</b> Agrupación</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#work.experience"><i class="fa fa-check"></i><b>2.2.1</b> Work.Experience</a></li>
+<li class="chapter" data-level="2.2.2" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#job.search.problems.grouped"><i class="fa fa-check"></i><b>2.2.2</b> Job.search.problems.grouped</a></li>
+<li class="chapter" data-level="2.2.3" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#dream.company.type"><i class="fa fa-check"></i><b>2.2.3</b> Dream.company.type</a></li>
+<li class="chapter" data-level="2.2.4" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#job.finder"><i class="fa fa-check"></i><b>2.2.4</b> Job.finder</a></li>
+<li class="chapter" data-level="2.2.5" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#studies.grouped.by.level"><i class="fa fa-check"></i><b>2.2.5</b> Studies.grouped.by.level</a></li>
+<li class="chapter" data-level="2.2.6" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#interested.in"><i class="fa fa-check"></i><b>2.2.6</b> Interested.in</a></li>
+<li class="chapter" data-level="2.2.7" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#skills"><i class="fa fa-check"></i><b>2.2.7</b> Skills</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#binarización"><i class="fa fa-check"></i><b>2.3</b> Binarización</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Análisis Y Visualización de Datos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#cuáles-son-las-páginas-más-usadas-para-la-búsqueda-de-empleo"><i class="fa fa-check"></i><b>3.1</b> ¿Cuáles son las páginas más usadas para la búsqueda de empleo?</a></li>
+<li class="chapter" data-level="3.2" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#cuáles-son-las-competencias-que-más-tienen-las-personas-encuestadas"><i class="fa fa-check"></i><b>3.2</b> ¿Cuáles son las competencias que más tienen las personas encuestadas?</a></li>
+<li class="chapter" data-level="3.3" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#hay-diferencias-entre-lo-que-estudian-los-hombres-y-las-mujeres"><i class="fa fa-check"></i><b>3.3</b> ¿Hay diferencias entre lo que estudian los hombres y las mujeres?</a></li>
+<li class="chapter" data-level="3.4" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#marital-status-and-interested-in-freelance"><i class="fa fa-check"></i><b>3.4</b> Marital Status and interested in freelance</a></li>
+<li class="chapter" data-level="3.5" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#age-and-freelance"><i class="fa fa-check"></i><b>3.5</b> Age and freelance</a></li>
+<li class="chapter" data-level="3.6" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#gente-que-trabaja-está-contenta-con-su-trabajo"><i class="fa fa-check"></i><b>3.6</b> “Gente que trabaja está contenta con su trabajo”</a></li>
+<li class="chapter" data-level="3.7" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#cuáles-son-las-competencias-que-más-tienen-las-personas-encuestadas-1"><i class="fa fa-check"></i><b>3.7</b> ¿Cuáles son las competencias que más tienen las personas encuestadas?</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="reglas-de-asociación.html"><a href="reglas-de-asociación.html"><i class="fa fa-check"></i><b>4</b> Reglas de Asociación</a></li>
+<li class="chapter" data-level="5" data-path="análisis-de-contexto-formal.html"><a href="análisis-de-contexto-formal.html"><i class="fa fa-check"></i><b>5</b> Análisis de Contexto Formal</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-contexto-formal.html"><a href="análisis-de-contexto-formal.html#conceptos"><i class="fa fa-check"></i><b>5.1</b> Conceptos</a></li>
+<li class="chapter" data-level="5.2" data-path="análisis-de-contexto-formal.html"><a href="análisis-de-contexto-formal.html#implicaciones"><i class="fa fa-check"></i><b>5.2</b> Implicaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>6</b> Clustering</a></li>
+<li class="chapter" data-level="7" data-path="reflexión.html"><a href="reflexión.html"><i class="fa fa-check"></i><b>7</b> Reflexión</a></li>
+<li class="chapter" data-level="8" data-path="bibliografía.html"><a href="bibliografía.html"><i class="fa fa-check"></i><b>8</b> Bibliografía</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Trasteando con R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reglas-de-asociación" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Capítulo 4</span> Reglas de Asociación<a href="reglas-de-asociación.html#reglas-de-asociación" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Vamos a buscar reglas que, como mínimo, sean igual que el proceso de tirar una moneda (50%)</p>
+<p>Soporte = Frecuencia de la regla en el dataset</p>
+<p>Confianza = Indica cuán fiable es una regla</p>
+<pre><code>reglas &lt;- apriori(Emple01, parameter = list(supp = 0.1, conf = 0.5,   
+                                            target = &quot;rules&quot;)) 
+
+reglas &lt;- reglas[which(is.significant(reglas))]
+reglas &lt;- reglas[which(!is.redundant(reglas))]</code></pre>
+<p>Y vamos también a usar fcaR porque tiene mecanismos para reducir aún más las reglas</p>
+<pre><code>fc_Empleo &lt;- FormalContext$new(Emple01)
+fc_Empleo$implications$add(reglas)
+fc_Empleo$implications$apply_rules(rules = c(&quot;composition&quot;,&quot;generalization&quot;,
+                                           &quot;simplification&quot;,&quot;rsimplification&quot;),
+                                   parallelize = FALSE)
+
+reglas &lt;- fc_Empleo$implications$to_arules()</code></pre>
+<p>Nos deja 11 reglas, vamos a ver qué podemos sacar de estas</p>
+<pre><code>##  [1] &quot;Lack of experience&quot;                                              
+##  [2] &quot;No response from recruiter&quot;                                      
+##  [3] &quot;Fear of English, network slow at home, interviewer not handsome &quot;
+##  [4] &quot;Not getting what I am looking for&quot;                               
+##  [5] &quot;Low salary scale &quot;                                               
+##  [6] &quot;Still not looking for jobs actively&quot;                             
+##  [7] &quot;Nothing &quot;                                                        
+##  [8] &quot;No problems&quot;                                                     
+##  [9] &quot;No problems &quot;                                                    
+## [10] &quot;I haven&#39;t applied for any. &quot;                                     
+## [11] &quot;Lack of experience;No response from recruiter&quot;                   
+## [12] &quot;Good oppurtunities&quot;</code></pre>
+<pre><code>##  [1] &quot;Startup&quot;                 &quot;Product based&quot;          
+##  [3] &quot;MNC&quot;                     &quot;Interior design &quot;       
+##  [5] &quot;Both &quot;                   &quot;multinational companies&quot;
+##  [7] &quot;Amazon,Google,Apple&quot;     &quot;Apple&quot;                  
+##  [9] &quot;Multinationals &quot;         &quot;All types &quot;             
+## [11] &quot;Both&quot;                    &quot;Google&quot;</code></pre>
+<pre><code>##  [1] &quot;Naukri;Linkedin;Indeed;Monster;&quot;            
+##  [2] &quot;Linkedin&quot;                                   
+##  [3] &quot;Linkedin;&quot;                                  
+##  [4] &quot;Naukri;Linkedin;Indeed&quot;                     
+##  [5] &quot;Indeed&quot;                                     
+##  [6] &quot;Naukri;Linkedin;Monster&quot;                    
+##  [7] &quot;Monster&quot;                                    
+##  [8] &quot;Naukri;Linkedin&quot;                            
+##  [9] &quot;Naukri;Linkedin;Indeed;&quot;                    
+## [10] &quot;Linkedin;Indeed&quot;                            
+## [11] &quot;Naukri;Linkedin;Indeed;Monster;Hirist&quot;      
+## [12] &quot;Linkedin;Indeed;Monster&quot;                    
+## [13] &quot;Other &quot;                                     
+## [14] &quot;Naukri;Linkedin;&quot;                           
+## [15] &quot;Naukri;Linkedin;Indeed;Instagram, Facebook &quot;
+## [16] &quot;Naukri&quot;                                     
+## [17] &quot;Nothing &quot;                                   
+## [18] &quot;Naukri;Linkedin;Indeed;Monster&quot;             
+## [19] &quot;Naukri;Linkedin;Fiverr&quot;                     
+## [20] &quot;Naukri;Linkedin;Indeed;Google&quot;              
+## [21] &quot;Other&quot;</code></pre>
+<pre><code>##  [1] &quot;Btech&quot;                                                      
+##  [2] &quot;Diploma &quot;                                                   
+##  [3] &quot;diploma&quot;                                                    
+##  [4] &quot;MSW&quot;                                                        
+##  [5] &quot;BCA&quot;                                                        
+##  [6] &quot;MCA &quot;                                                       
+##  [7] &quot;BSC physics&quot;                                                
+##  [8] &quot;Bcom&quot;                                                       
+##  [9] &quot;Interior designing &quot;                                        
+## [10] &quot;BBA&quot;                                                        
+## [11] &quot;Msc.physics&quot;                                                
+## [12] &quot;Bsc Physics &quot;                                               
+## [13] &quot;M.tech&quot;                                                     
+## [14] &quot;Bsc physics &quot;                                               
+## [15] &quot;Diploma in Computer Howard Engineering &quot;                    
+## [16] &quot;MBA&quot;                                                        
+## [17] &quot;Diploma in multimedia &amp; bba (distance education third year)&quot;
+## [18] &quot;BE EEE&quot;                                                     
+## [19] &quot;BE&quot;                                                         
+## [20] &quot;Bsc&quot;                                                        
+## [21] &quot;Pharm D&quot;                                                    
+## [22] &quot;MCA&quot;                                                        
+## [23] &quot;Bds&quot;                                                        
+## [24] &quot;M tech&quot;                                                     
+## [25] &quot;BVOC IN SOFTWARE DEVELOPMENT &quot;                              
+## [26] &quot;bvoc in software development&quot;                               
+## [27] &quot;Bvoc in software development&quot;                               
+## [28] &quot;B.voc Software development &quot;                                
+## [29] &quot;Bvoc IT&quot;                                                    
+## [30] &quot;BVOC SOFTWARE DEVELOPMENT &quot;                                 
+## [31] &quot;BVOC in software development &quot;                              
+## [32] &quot;BVOC IT IN SOFTWARE DEVELOPMENT &quot;                           
+## [33] &quot;Msc&quot;                                                        
+## [34] &quot;Mtech&quot;                                                      
+## [35] &quot;M. tech&quot;                                                    
+## [36] &quot;Diploma&quot;                                                    
+## [37] &quot;ITI&quot;                                                        
+## [38] &quot;MA&quot;                                                         
+## [39] &quot;M Eng&quot;                                                      
+## [40] &quot;MSc&quot;</code></pre>
+<pre><code>##  [1] &quot;Btech&quot;                                                      
+##  [2] &quot;Diploma &quot;                                                   
+##  [3] &quot;diploma&quot;                                                    
+##  [4] &quot;MSW&quot;                                                        
+##  [5] &quot;BCA&quot;                                                        
+##  [6] &quot;MCA &quot;                                                       
+##  [7] &quot;BSC physics&quot;                                                
+##  [8] &quot;Bcom&quot;                                                       
+##  [9] &quot;Interior designing &quot;                                        
+## [10] &quot;BBA&quot;                                                        
+## [11] &quot;Msc.physics&quot;                                                
+## [12] &quot;Bsc Physics &quot;                                               
+## [13] &quot;M.tech&quot;                                                     
+## [14] &quot;Bsc physics &quot;                                               
+## [15] &quot;Diploma in Computer Howard Engineering &quot;                    
+## [16] &quot;MBA&quot;                                                        
+## [17] &quot;Diploma in multimedia &amp; bba (distance education third year)&quot;
+## [18] &quot;BE EEE&quot;                                                     
+## [19] &quot;BE&quot;                                                         
+## [20] &quot;Bsc&quot;                                                        
+## [21] &quot;Pharm D&quot;                                                    
+## [22] &quot;MCA&quot;                                                        
+## [23] &quot;Bds&quot;                                                        
+## [24] &quot;M tech&quot;                                                     
+## [25] &quot;BVOC IN SOFTWARE DEVELOPMENT &quot;                              
+## [26] &quot;bvoc in software development&quot;                               
+## [27] &quot;Bvoc in software development&quot;                               
+## [28] &quot;B.voc Software development &quot;                                
+## [29] &quot;Bvoc IT&quot;                                                    
+## [30] &quot;BVOC SOFTWARE DEVELOPMENT &quot;                                 
+## [31] &quot;BVOC in software development &quot;                              
+## [32] &quot;BVOC IT IN SOFTWARE DEVELOPMENT &quot;                           
+## [33] &quot;Msc&quot;                                                        
+## [34] &quot;Mtech&quot;                                                      
+## [35] &quot;M. tech&quot;                                                    
+## [36] &quot;Diploma&quot;                                                    
+## [37] &quot;ITI&quot;                                                        
+## [38] &quot;MA&quot;                                                         
+## [39] &quot;M Eng&quot;                                                      
+## [40] &quot;MSc&quot;</code></pre>
+<pre><code>##  [1] &quot;Digital Marketing&quot;                     
+##  [2] &quot;Data science/ Data Analytics&quot;          
+##  [3] &quot;Front end development&quot;                 
+##  [4] &quot;Python&quot;                                
+##  [5] &quot;Accounts and Art Field&quot;                
+##  [6] &quot;Interior designing &#39;autocad designing &quot;
+##  [7] &quot;Aerospace engineering &quot;                
+##  [8] &quot;Python full stack&quot;                     
+##  [9] &quot;Embedded programming &quot;                 
+## [10] &quot;IT&quot;                                    
+## [11] &quot;Nursing&quot;                               
+## [12] &quot;Mechanical Design&quot;                     
+## [13] &quot;Love without work&quot;                     
+## [14] &quot;Medicine&quot;                              
+## [15] &quot;Govt services&quot;                         
+## [16] &quot;Medical&quot;                               
+## [17] &quot;Admin&quot;                                 
+## [18] &quot;Construction field&quot;                    
+## [19] &quot;HR&quot;                                    
+## [20] &quot;Life science&quot;                          
+## [21] &quot;Engineering Design &quot;                   
+## [22] &quot;Interior Designing&quot;                    
+## [23] &quot;QA- testing &quot;                          
+## [24] &quot;Mechanical Engineering &quot;</code></pre>
+<pre><code>##  [1] &quot;Excel;&quot;                                                 
+##  [2] &quot;Other&quot;                                                  
+##  [3] &quot;Excel;Python;Sql;Other&quot;                                 
+##  [4] &quot;front-end development&quot;                                  
+##  [5] &quot;Excel&quot;                                                  
+##  [6] &quot;Excel;Python;Sql&quot;                                       
+##  [7] &quot;Excel;Rivet,cad&quot;                                        
+##  [8] &quot;Sql&quot;                                                    
+##  [9] &quot;Python;Sql&quot;                                             
+## [10] &quot;Excel;Digital marketing,web designing &quot;                 
+## [11] &quot;Autocad &quot;                                               
+## [12] &quot;Python;Other&quot;                                           
+## [13] &quot;Python;Other;html, css, bootstrap&quot;                      
+## [14] &quot;Other;C,c++, electronics, embedded systems, embedded c,&quot;
+## [15] &quot;Python;Sql;Other&quot;                                       
+## [16] &quot;Excel;Python;Other&quot;                                     
+## [17] &quot;Other;Design, editing &quot;                                 
+## [18] &quot;Excel;Python&quot;                                           
+## [19] &quot;Sql;Angular,Dotnet&quot;                                     
+## [20] &quot;Nursing&quot;                                                
+## [21] &quot;CREO Design Software&quot;                                   
+## [22] &quot;Driving &quot;                                               
+## [23] &quot;Python&quot;                                                 
+## [24] &quot;Database&quot;                                               
+## [25] &quot;Excel;Other&quot;                                            
+## [26] &quot;Excel;Sql&quot;                                              
+## [27] &quot;Python;Css, html&quot;                                       
+## [28] &quot;Excel;Python;Wordpress&quot;                                 
+## [29] &quot;Excel;Aspen,HTRI,autocad&quot;                               
+## [30] &quot;Excel;Python;Sql;Tableau &quot;                              
+## [31] &quot;Excel;Sql;Other;Powerbi&quot;                                
+## [32] &quot;Tally prime &quot;                                           
+## [33] &quot;Excel;Python;CAD/CAM, MATLAB&quot;                           
+## [34] &quot;Excel;Python;Sql;Power BI&quot;</code></pre>
+<pre><code>##  [1] &quot;Skills = Database;Other,WebPages&quot;                                                                             
+##  [2] &quot;Skills = Database;Programming Languages;Design,Data Analysis&quot;                                                 
+##  [3] &quot;Skills = Database;Simulator,Simulator,Design&quot;                                                                 
+##  [4] &quot;Skills = Database;WebPages,Design&quot;                                                                            
+##  [5] &quot;Skills = Database;WebPages,WebPages&quot;                                                                          
+##  [6] &quot;Skills = Other;Design,Other&quot;                                                                                  
+##  [7] &quot;Skills = Other;Programming Languages,Programming Languages,Other,Programming Languages,Programming Languages,&quot;
+##  [8] &quot;Skills = Programming Languages;Other;WebPages,WebPages,WebPages&quot;                                              
+##  [9] &quot;Skills = Programming Languages;WebPages,WebPages&quot;                                                             
+## [10] &quot;Job.finder = Naukri;Linkedin;Indeed;Instagram, Facebook &quot;                                                     
+## [11] &quot;Dream.company.type = Multinational,Multinational,Multinational&quot;                                               
+## [12] &quot;Job.search.problems = My thing,My thing,Nothing&quot;</code></pre>
+<pre><code>## Apriori
+## 
+## Parameter specification:
+##  confidence minval smax arem  aval originalSupport maxtime support minlen
+##         0.5    0.1    1 none FALSE            TRUE       5     0.1      1
+##  maxlen target  ext
+##      10  rules TRUE
+## 
+## Algorithmic control:
+##  filter tree heap memopt load sort verbose
+##     0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+## 
+## Absolute minimum support count: 9 
+## 
+## set item appearances ...[0 item(s)] done [0.00s].
+## set transactions ...[88 item(s), 92 transaction(s)] done [0.00s].
+## sorting and recoding items ... [57 item(s)] done [0.00s].
+## creating transaction tree ... done [0.00s].
+## checking subsets of size 1 2 3 4 5 6 7 8 9 10 done [0.05s].
+## writing ... [540971 rule(s)] done [0.12s].
+## creating S4 object  ... done [0.46s].</code></pre>
+<pre><code>##      lhs                                        rhs                                       support confidence     lift count addedValue boost casualConfidence casualSupport centeredConfidence certainty chiSquared collectiveStrength confirmedConfidence conviction    cosine counterexample  coverage       doc fishersExactTest      gini hyperConfidence hyperLift  imbalance implicationIndex importance improvement   jaccard   jMeasure     kappa kulczynski    lambda   laplace leastContradiction   lerman  leverage maxconfidence mutualInformation oddsRatio       phi ralambondrainy relativeRisk rhsSupport       RLD rulePowerFactor     sebag  stdLift table.n11 table.n01 table.n10 table.n00 varyingLiaison     yuleQ     yuleY
+## [1]  {Career.shift = Better job opportunity} =&gt; {Career.switch = Yes}                   0.3478261  0.8421053 1.986505    32  0.4181922   Inf        0.9966115     0.7065217          0.4181922 0.7259186   46.36228          299.96999           0.6842105   3.648551 0.8312389      0.8125000 0.4130435 0.7124756     3.520061e-12 0.2461341               1  1.454545 0.02222222        -3.396438  0.7615520   0.8421053 0.7111111 0.15432688 0.7097087  0.8313090 0.6666667 0.8250000          0.8205128 3.959400 0.1727316     0.8421053         0.4056231  35.80952 0.7098857     0.06521739     6.496241  0.4239130 0.7259186      0.29290618  5.333333     -Inf        32         7         6        47      0.9865047 0.9456662 0.7136355
+## [2]  {Career.switch = Yes}                   =&gt; {Career.shift = Better job opportunity} 0.3478261  0.8205128 1.986505    32  0.4074693   Inf        0.9960468     0.6847826          0.4074693 0.6942070   46.36228          299.96999           0.6410256   3.270186 0.8312389      0.7812500 0.4239130 0.7073053     3.520061e-12 0.2443479               1  1.454545 0.02222222        -3.321424  0.8009947   0.8205128 0.7111111 0.14858831 0.7097087  0.8313090 0.6578947 0.8048780          0.8421053 3.959400 0.1727316     0.8421053         0.4056231  35.80952 0.7098857     0.07608696     7.247863  0.4130435 0.7259186      0.28539576  4.571429 7.000000        32         6         7        47      0.9865047 0.9456662 0.7136355
+## [3]  {Career.shift = Not applicabe}          =&gt; {Career.switch = No}                    0.4782609  0.9565217 1.660377    44  0.3804348   Inf        0.9991172     1.0326087          0.3804348 0.8974359   54.52346          248.25050           0.9130435   9.750000 0.8911193      0.9545455 0.5000000 0.7608696     8.078343e-15 0.2894612               1  1.375000 0.12727273        -3.962970  0.6532125   0.9565217 0.8000000 0.19299392 0.7608696  0.8933552 0.7179487 0.9375000          0.8301887 3.399501 0.1902174     0.9565217         0.5061356  90.44444 0.7698353     0.02173913     4.888889  0.5760870 0.8974359      0.45746692 22.000000     -Inf        44         9         2        37      0.6603774 0.9781288 0.8097092
+## [4]  {Career.switch = No}                    =&gt; {Career.shift = Not applicabe}          0.4782609  0.8301887 1.660377    44  0.3301887   Inf        0.9960276     0.8804348          0.3301887 0.6603774   54.52346          248.25050           0.6603774   2.944444 0.8911193      0.7954545 0.5760870 0.7789066     8.078343e-15 0.2963232               1  1.375000 0.12727273        -3.399501  1.0485124   0.8301887 0.8000000 0.13685537 0.7608696  0.8933552 0.7608696 0.8181818          0.9565217 3.399501 0.1902174     0.9565217         0.5061356  90.44444 0.7698353     0.09782609    16.188679  0.5000000 0.8974359      0.39704676  4.888889 1.285714        44         2         9        37      0.6603774 0.9781288 0.8097092
+## [5]  {Age.group = &lt;25,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+##       Still.Studying = Yes}                  =&gt; {Currently.employed = No}               0.2608696  0.8571429 2.075188    24  0.4440994   Inf        0.9973030     0.6304348          0.4440994 0.7566138   32.74346          222.44783           0.7142857   4.108696 0.7357672      0.8333333 0.3043478 0.6383929     9.941104e-09 0.1725712               1  1.411765 0.23809524        -3.067300  0.5642714   0.8571429 0.5714286 0.12900890 0.5801217  0.7443609 0.5263158 0.8333333          0.6315789 3.656464 0.1351607     0.8571429         0.3054307  21.42857 0.5965795     0.04347826     3.918367  0.4130435 0.7566138      0.22360248  6.000000     -Inf        24        14         4        50      1.0751880 0.9108280 0.6447034
+## [6]  {Work.experience = Fresher,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+##       Still.Studying = Yes}                  =&gt; {Currently.employed = No}               0.2934783  0.7941176 1.922601    27  0.3810742   Inf        0.9957599     0.6304348          0.3810742 0.6492375   32.30398          202.86325           0.5882353   2.850932 0.7511601      0.7407407 0.3695652 0.6044625     1.260059e-08 0.1702550               1  1.421053 0.08888889        -2.900321  0.5898255   0.7941176 0.6000000 0.11212832 0.5900990  0.7523220 0.5263158 0.7777778          0.7105263 3.457412 0.1408318     0.7941176         0.2790629  16.48052 0.5925624     0.07608696     4.187166  0.4130435 0.6492375      0.23305627  3.857143     -Inf        27        11         7        47      0.9226006 0.8855869 0.6047134
+## [7]  {Work.experience = Fresher,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+##       Career.break = No}                     =&gt; {Age.group = &lt;25}                       0.5434783  0.8474576 1.367826    50  0.2278924   Inf        0.9966257     1.0652174          0.2278924 0.5990315   36.24252           93.44579           0.6949153   2.493961 0.8621971      0.8200000 0.6413043 0.6353364     1.892788e-09 0.1857068               1  1.190476 0.03030303        -2.838022  0.5632184   0.8474576 0.7575758 0.08082926 0.6269640  0.8623253 0.5428571 0.8360656          0.8771930 2.223885 0.1461484     0.8771930         0.3141312  20.63492 0.6276467     0.09782609     3.995157  0.6195652 0.6576289      0.46057480  5.555556 4.500000        50         7         9        26      0.3678263 0.9075569 0.6391564
+## [8]  {Studies.grouped.by.level = Bachelor,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+##       Still.Studying = Yes,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+##       Career.switch = No,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+##       Skills = Programming Languages}        =&gt; {Interested.in = Python}                0.1304348  0.8571429 4.638655    12  0.6723602   Inf        0.9971684     0.2934783          0.6723602 0.8247619   49.55538          760.45890           0.7142857   5.706522 0.7778445      0.8333333 0.1521739 0.7930403     1.377132e-09 0.1622809               1  2.000000 0.15789474        -2.786309  1.0347621   0.8571429 0.6315789 0.16228125 0.7289562  0.7815126 0.5882353 0.8125000          0.7058824 5.852420 0.1023157     0.8571429         0.5024697  87.60000 0.7339247     0.02173913    13.371429  0.1847826 0.8247619      0.11180124  6.000000     -Inf        12         5         2        73      3.6386555 0.9774266 0.8069403
+## [9]  {Marital.status = Single,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+##       Still.Studying = Yes,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+##       Career.switch = No,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+##       Skills = Programming Languages}        =&gt; {Interested.in = Python}                0.1304348  0.8571429 4.638655    12  0.6723602   Inf        0.9971684     0.2934783          0.6723602 0.8247619   49.55538          760.45890           0.7142857   5.706522 0.7778445      0.8333333 0.1521739 0.7930403     1.377132e-09 0.1622809               1  2.000000 0.15789474        -2.786309  1.0347621   0.8571429 0.6315789 0.16228125 0.7289562  0.7815126 0.5882353 0.8125000          0.7058824 5.852420 0.1023157     0.8571429         0.5024697  87.60000 0.7339247     0.02173913    13.371429  0.1847826 0.8247619      0.11180124  6.000000     -Inf        12         5         2        73      3.6386555 0.9774266 0.8069403
+## [10] {Marital.status = Single,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+##       Studies.grouped.by.level = Bachelor,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+##       Career.switch = No,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+##       Skills = Programming Languages}        =&gt; {Interested.in = Python}                0.1521739  0.6666667 3.607843    14  0.4818841   Inf        0.9919011     0.2608696          0.4818841 0.5911111   41.94685          526.53360           0.3333333   2.445652 0.7409586      0.5000000 0.2282609 0.6244131     4.811616e-09 0.1373650               1  1.750000 0.16666667        -2.445769  1.0756263   0.6666667 0.5833333 0.12721042 0.6693027  0.7450980 0.4117647 0.6521739          0.8235294 5.137143 0.1099953     0.8235294         0.4141336  45.33333 0.6752363     0.07608696    15.777778  0.1847826 0.7713339      0.10144928  2.000000 1.750000        14         3         7        68      2.6078431 0.9568345 0.7413683
+## [11] {Work.experience = Fresher,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+##       Studies.grouped.by.level = Bachelor,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+##       Career.switch = No,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+##       Skills = Programming Languages}        =&gt; {Interested.in = Python}                0.1521739  0.6363636 3.443850    14  0.4515810   Inf        0.9909323     0.2500000          0.4515810 0.5539394   39.14257          466.61762           0.2727273   2.241848 0.7239228      0.4285714 0.2391304 0.5935065     1.271409e-08 0.1281817               1  1.750000 0.20000000        -2.345904  1.0511525   0.6363636 0.5600000 0.11797672 0.6436620  0.7299465 0.3529412 0.6250000          0.8235294 4.927385 0.1079868     0.8235294         0.3911867  39.08333 0.6522750     0.08695652    14.848485  0.1847826 0.7680672      0.09683794  1.750000 1.600000        14         3         8        67      2.4438503 0.9501040 0.7242013</code></pre>
+<p>Por ejemplo la quinta nos dice que si es una persona joven y que está estudiando
+probablemente no trabaje.
+Y las demás no son muy interesantes más allá de las últimas que hablan de muy probable
+que si eres joven, soltero y eso pues lo más probable es que uses python.</p>
+<p>A ver si alguna de las herramientas restantes arroja mejores resultados</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="análisis-y-visualización-de-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="análisis-de-contexto-formal.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-parts.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

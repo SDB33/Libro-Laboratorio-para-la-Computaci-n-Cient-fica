@@ -1,0 +1,15 @@
+# Reflexión
+
+Como se puede comprobar no se ha podido sacar muchas conclusiones de estos datos. 
+Esto puede ser por dos cosas:
+
+1) No aplicar bien los conocimientos aprendidos.
+2) Los datos son insustanciales.
+
+Y creo que han podido ser las dos cosas porque por un lado los datos contenían muy pocas observaciones
+sobre un tema que no parece relevante (comparado con virustotal de algún año anterior u otros posibles dataframes de sobrepeso y posibles motivos o cosas por el estilo) y por el otro puede ser que no haya yo usado bien las herramientas o que no haya limpiado los datos mejor y por eso no haya podido sacar conclusiones interesantes.
+
+También es verdad que, por ejemplo, no había ni una columna numérica lo que ya quita posibilidades interesantes como el escalado, como regresión, como poder usar clustering de una forma más potente, etc.
+
+
+

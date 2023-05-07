@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 3 Análisis Y Visualización de Datos | Trasteando con R</title>
+  <meta name="description" content="Trabajo perteneciente a la asignatura de Laboratorio de Computación Científica" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 3 Análisis Y Visualización de Datos | Trasteando con R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Trabajo perteneciente a la asignatura de Laboratorio de Computación Científica" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Análisis Y Visualización de Datos | Trasteando con R" />
+  
+  <meta name="twitter:description" content="Trabajo perteneciente a la asignatura de Laboratorio de Computación Científica" />
+  
+
+<meta name="author" content="Salvador Durán Borrego" />
+
+
+<meta name="date" content="2023-05-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="preprocesamiento-el-bicheo.html"/>
+<link rel="next" href="reglas-de-asociación.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html"><i class="fa fa-check"></i><b>2</b> Preprocesamiento (el bicheo)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#miscelánea"><i class="fa fa-check"></i><b>2.1</b> Miscelánea</a></li>
+<li class="chapter" data-level="2.2" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#agrupación"><i class="fa fa-check"></i><b>2.2</b> Agrupación</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#work.experience"><i class="fa fa-check"></i><b>2.2.1</b> Work.Experience</a></li>
+<li class="chapter" data-level="2.2.2" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#job.search.problems.grouped"><i class="fa fa-check"></i><b>2.2.2</b> Job.search.problems.grouped</a></li>
+<li class="chapter" data-level="2.2.3" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#dream.company.type"><i class="fa fa-check"></i><b>2.2.3</b> Dream.company.type</a></li>
+<li class="chapter" data-level="2.2.4" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#job.finder"><i class="fa fa-check"></i><b>2.2.4</b> Job.finder</a></li>
+<li class="chapter" data-level="2.2.5" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#studies.grouped.by.level"><i class="fa fa-check"></i><b>2.2.5</b> Studies.grouped.by.level</a></li>
+<li class="chapter" data-level="2.2.6" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#interested.in"><i class="fa fa-check"></i><b>2.2.6</b> Interested.in</a></li>
+<li class="chapter" data-level="2.2.7" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#skills"><i class="fa fa-check"></i><b>2.2.7</b> Skills</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#binarización"><i class="fa fa-check"></i><b>2.3</b> Binarización</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Análisis Y Visualización de Datos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#cuáles-son-las-páginas-más-usadas-para-la-búsqueda-de-empleo"><i class="fa fa-check"></i><b>3.1</b> ¿Cuáles son las páginas más usadas para la búsqueda de empleo?</a></li>
+<li class="chapter" data-level="3.2" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#cuáles-son-las-competencias-que-más-tienen-las-personas-encuestadas"><i class="fa fa-check"></i><b>3.2</b> ¿Cuáles son las competencias que más tienen las personas encuestadas?</a></li>
+<li class="chapter" data-level="3.3" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#hay-diferencias-entre-lo-que-estudian-los-hombres-y-las-mujeres"><i class="fa fa-check"></i><b>3.3</b> ¿Hay diferencias entre lo que estudian los hombres y las mujeres?</a></li>
+<li class="chapter" data-level="3.4" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#marital-status-and-interested-in-freelance"><i class="fa fa-check"></i><b>3.4</b> Marital Status and interested in freelance</a></li>
+<li class="chapter" data-level="3.5" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#age-and-freelance"><i class="fa fa-check"></i><b>3.5</b> Age and freelance</a></li>
+<li class="chapter" data-level="3.6" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#gente-que-trabaja-está-contenta-con-su-trabajo"><i class="fa fa-check"></i><b>3.6</b> “Gente que trabaja está contenta con su trabajo”</a></li>
+<li class="chapter" data-level="3.7" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#cuáles-son-las-competencias-que-más-tienen-las-personas-encuestadas-1"><i class="fa fa-check"></i><b>3.7</b> ¿Cuáles son las competencias que más tienen las personas encuestadas?</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="reglas-de-asociación.html"><a href="reglas-de-asociación.html"><i class="fa fa-check"></i><b>4</b> Reglas de Asociación</a></li>
+<li class="chapter" data-level="5" data-path="análisis-de-contexto-formal.html"><a href="análisis-de-contexto-formal.html"><i class="fa fa-check"></i><b>5</b> Análisis de Contexto Formal</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-contexto-formal.html"><a href="análisis-de-contexto-formal.html#conceptos"><i class="fa fa-check"></i><b>5.1</b> Conceptos</a></li>
+<li class="chapter" data-level="5.2" data-path="análisis-de-contexto-formal.html"><a href="análisis-de-contexto-formal.html#implicaciones"><i class="fa fa-check"></i><b>5.2</b> Implicaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>6</b> Clustering</a></li>
+<li class="chapter" data-level="7" data-path="reflexión.html"><a href="reflexión.html"><i class="fa fa-check"></i><b>7</b> Reflexión</a></li>
+<li class="chapter" data-level="8" data-path="bibliografía.html"><a href="bibliografía.html"><i class="fa fa-check"></i><b>8</b> Bibliografía</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Trasteando con R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="análisis-y-visualización-de-datos" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Capítulo 3</span> Análisis Y Visualización de Datos<a href="análisis-y-visualización-de-datos.html#análisis-y-visualización-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Este capítulo se basa en preguntarse cosas sobre los datos e intentar sacar
+conclusiones pero meramente usando gráficos.</p>
+<div id="cuáles-son-las-páginas-más-usadas-para-la-búsqueda-de-empleo" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> ¿Cuáles son las páginas más usadas para la búsqueda de empleo?<a href="análisis-y-visualización-de-datos.html#cuáles-son-las-páginas-más-usadas-para-la-búsqueda-de-empleo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre><code>auxi &lt;- table(unlist(Empleo$Job.finder))
+auxi &lt;- auxi[order(auxi,decreasing = TRUE)]
+
+ggplot(as.data.frame(auxi), aes(x=&quot;&quot;, y=Freq, fill=Var1)) +
+  geom_bar(stat=&quot;identity&quot;, width=1) +
+  coord_polar(&quot;y&quot;, start=0) + 
+  labs(fill = &quot;Buscadores&quot;, x = &quot; &quot;, y = &quot; &quot;)</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="cuáles-son-las-competencias-que-más-tienen-las-personas-encuestadas" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> ¿Cuáles son las competencias que más tienen las personas encuestadas?<a href="análisis-y-visualización-de-datos.html#cuáles-son-las-competencias-que-más-tienen-las-personas-encuestadas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre><code>auxi &lt;- table(unlist(Empleo$Skills))
+auxi &lt;- auxi[order(auxi,decreasing = TRUE)]
+
+
+ggplot(as.data.frame(auxi), aes(x=&quot;&quot;, y=Freq, fill=Var1)) +
+  geom_bar(stat=&quot;identity&quot;, width=1) +
+  coord_polar(&quot;y&quot;, start=0) + 
+  labs(fill = &quot;Competencia&quot;, x = &quot; &quot;, y = &quot; &quot;)
+
+</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="hay-diferencias-entre-lo-que-estudian-los-hombres-y-las-mujeres" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> ¿Hay diferencias entre lo que estudian los hombres y las mujeres?<a href="análisis-y-visualización-de-datos.html#hay-diferencias-entre-lo-que-estudian-los-hombres-y-las-mujeres" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre><code>auxi &lt;- Empleo %&gt;%
+  select(Gender,Studies.grouped.by.field) %&gt;%
+  filter(Gender == &quot;Male&quot;) %&gt;%
+  group_by(Studies.grouped.by.field) %&gt;%
+  summarise(Hombres=n()) %&gt;%
+  arrange(Hombres) 
+
+
+auxi[[2]][which(auxi == &quot;Art&quot;)] &lt;- auxi[[2]][which(auxi == &quot;Art&quot;)] +1 
+auxi[[2]][which(auxi == &quot;Business&quot;)] &lt;- auxi[[2]][which(auxi == &quot;Business&quot;)] +1 
+auxi &lt;- auxi[-1,]
+
+
+auxi &lt;- inner_join(auxi, (Empleo %&gt;%
+                    select(Gender,Studies.grouped.by.field) %&gt;%
+                    filter(Gender == &quot;Female&quot;) %&gt;%
+                    group_by(Studies.grouped.by.field) %&gt;%
+                    summarise(Mujeres=n()) %&gt;%
+                    arrange(Mujeres))
+                          , by = &quot;Studies.grouped.by.field&quot;)
+for (x in c(1:nrow(auxi))) {
+  auxi[nrow(auxi) + 1,] &lt;- auxi %&gt;% slice(x)
+}
+
+auxi &lt;- auxi %&gt;%
+  mutate(Sexo = if_else(row_number()&lt;=7,&quot;Hombre&quot;, &quot;Mujer&quot;))
+
+for (x in c(((nrow(auxi)/2)+1):nrow(auxi)  )   ) {
+  print(x)
+  auxi$Hombres[x] &lt;- auxi$Mujeres[ (x - (nrow(auxi)/2) )    ]
+}
+
+auxi &lt;- auxi %&gt;%
+  select(-3) %&gt;%
+  rename( &quot;Contar&quot; = Hombres)
+
+ggplot(auxi, aes(x=unlist(Studies.grouped.by.field), y=Contar, fill = Sexo )) +
+  geom_bar( stat=&#39;identity&#39;,position=&#39;dodge&#39;) +
+  labs( fill = &quot;Género&quot;, x = &quot;Estudios por campo&quot;, y = &quot;Número&quot;)</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>No hay mucha disparidad entre elecciones de campo de estudios por género,
+hay que decir también que estos datos son “de juguete” pueden estar más que
+perfectamente sesgados o simplemente ser tan pequeños que no muestran nada.
+Únicamente mencionar que hay muchas más mujeres que hombres con estudios
+relacionados con la informática</p>
+</div>
+<div id="marital-status-and-interested-in-freelance" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Marital Status and interested in freelance<a href="análisis-y-visualización-de-datos.html#marital-status-and-interested-in-freelance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre><code>auxi &lt;- Empleo %&gt;% 
+  select(Marital.status, Interested.in.freelance) %&gt;%
+  group_by(Marital.status, Interested.in.freelance) %&gt;%
+  summarise( numero = n()) 
+
+
+auxi[[3]][which(auxi$Marital.status == &quot;Married&quot;)] = 
+  (auxi[[3]][which(auxi$Marital.status == &quot;Married&quot;)])/sum(auxi[[3]][which(auxi$Marital.status == &quot;Married&quot;)])
+
+
+auxi[[3]][which(auxi$Marital.status == &quot;Single&quot;)] = 
+  (auxi[[3]][which(auxi$Marital.status == &quot;Single&quot;)])/sum(auxi[[3]][which(auxi$Marital.status == &quot;Single&quot;)])
+
+auxi &lt;- auxi[-4,]
+
+
+ggplot(auxi, aes(x = unlist(Marital.status), y = numero, colour = Interested.in.freelance)) + 
+   geom_point() + 
+  labs( color = &quot;Interesado en freelance&quot;, x = &quot;Estado Civil&quot;, y = &quot;Número&quot;)</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Tampoco hay diferencias muy reseñables aunque sí que es cierto que, ligeramente,
+hay mayor porcentaje de personas casadas que están seguras de que no quieren
+ser freelance y, por el contrario, hay más personas solteras que están pensando
+si hacerlo.</p>
+</div>
+<div id="age-and-freelance" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Age and freelance<a href="análisis-y-visualización-de-datos.html#age-and-freelance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre><code>auxi &lt;- Empleo %&gt;% 
+  select(Age.group, Interested.in.freelance) %&gt;%
+  group_by(Age.group, Interested.in.freelance) %&gt;%
+  summarise( numero = n()) 
+
+auxi[[3]][which(auxi$Age.group == &quot;&lt;25&quot;)] = 
+  (auxi[[3]][which(auxi$Age.group == &quot;&lt;25&quot;)])/sum(auxi[[3]][which(auxi$Age.group == &quot;&lt;25&quot;)])
+
+auxi[[3]][which(auxi$Age.group == &quot;25-30&quot;)] = 
+  (auxi[[3]][which(auxi$Age.group == &quot;25-30&quot;)])/sum(auxi[[3]][which(auxi$Age.group == &quot;25-30&quot;)])
+
+auxi[[3]][which(auxi$Age.group == &quot;31-40&quot;)] = 
+  (auxi[[3]][which(auxi$Age.group == &quot;31-40&quot;)])/sum(auxi[[3]][which(auxi$Age.group == &quot;31-40&quot;)])
+
+
+ggplot(auxi, aes(x = unlist(Age.group), y = numero, colour = Interested.in.freelance)) + 
+  geom_point()</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Aquí ya sí podemos notar cierta separación que coincide más o menos con los datos esperados. Los más jóvenes son los más proclives a ser freelances (diferencia entre “Yes” y “No” mayor)
+Los de 25-30 años tienen tanto el mísmo interés en serlo como en no serlo y los de 31-40
+sorprendentemente tienen el porcentaje más alto de personas que quieren ser freelancers con casi un 60%</p>
+</div>
+<div id="gente-que-trabaja-está-contenta-con-su-trabajo" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> “Gente que trabaja está contenta con su trabajo”<a href="análisis-y-visualización-de-datos.html#gente-que-trabaja-está-contenta-con-su-trabajo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Entre comillas por qué vamos a buscar cuánta gente está en un trabajo y no busca
+otro.</p>
+<pre><code>auxi &lt;- Empleo %&gt;%
+  select(Currently.employed,Applying.4.job) %&gt;%
+  group_by(Currently.employed,Applying.4.job) %&gt;%
+  summarise( numero = n()) 
+
+
+auxi[[3]][which(auxi$Currently.employed == &quot;No&quot;)] = 
+  (auxi[[3]][which(auxi$Currently.employed == &quot;No&quot;)])/sum(auxi[[3]][which(auxi$Currently.employed == &quot;No&quot;)])
+
+auxi[[3]][which(auxi$Currently.employed == &quot;Yes&quot;)] = 
+  (auxi[[3]][which(auxi$Currently.employed == &quot;Yes&quot;)])/sum(auxi[[3]][which(auxi$Currently.employed == &quot;Yes&quot;)])
+
+ggplot(auxi, aes(x = unlist(Currently.employed), y = numero, fill = Applying.4.job)) + 
+  geom_bar( stat=&#39;identity&#39;)  + 
+  labs( fill = &quot;Buscando Trabajo&quot;, x = &quot;Trabajando&quot;, y = &quot;Número&quot;)</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Empezando por abajo (Yes,No,Casually) es normal que gente que no tenga trabajo busque
+más que los que si tienen y viceversa con “No”
+pero vemos que hay un alto porcentaje de personas que no tienen trabajo y casualmente tampoco buscan ¿Estarán estudiando?</p>
+<pre><code>auxi &lt;- Empleo %&gt;%
+  select(Currently.employed,Applying.4.job, Still.Studying) %&gt;%
+  group_by(Currently.employed,Applying.4.job,Still.Studying) %&gt;%
+  summarise( numero = n()) 
+
+auxi[[4]][which(auxi$Currently.employed == &quot;No&quot; &amp; auxi$Still.Studying == &quot;No&quot;)] = 
+  (auxi[[4]][which(auxi$Currently.employed == &quot;No&quot; &amp; auxi$Still.Studying == &quot;No&quot;)])/sum(auxi[[4]][which(auxi$Currently.employed == &quot;No&quot; &amp; auxi$Still.Studying == &quot;No&quot;)])
+
+auxi[[4]][which(auxi$Currently.employed == &quot;No&quot; &amp; auxi$Still.Studying == &quot;Yes&quot;)] = 
+  (auxi[[4]][which(auxi$Currently.employed == &quot;No&quot; &amp; auxi$Still.Studying == &quot;Yes&quot;)])/sum(auxi[[4]][which(auxi$Currently.employed == &quot;No&quot; &amp; auxi$Still.Studying == &quot;Yes&quot;)])
+
+
+auxi[[4]][which(auxi$Currently.employed == &quot;Yes&quot; &amp; auxi$Still.Studying == &quot;No&quot;)] = 
+  (auxi[[4]][which(auxi$Currently.employed == &quot;Yes&quot; &amp; auxi$Still.Studying == &quot;No&quot;)])/sum(auxi[[4]][which(auxi$Currently.employed == &quot;Yes&quot; &amp; auxi$Still.Studying == &quot;No&quot;)])
+
+auxi[[4]][which(auxi$Currently.employed == &quot;Yes&quot; &amp; auxi$Still.Studying == &quot;Yes&quot;)] = 
+  (auxi[[4]][which(auxi$Currently.employed == &quot;Yes&quot; &amp; auxi$Still.Studying == &quot;Yes&quot;)])/sum(auxi[[4]][which(auxi$Currently.employed == &quot;Yes&quot; &amp; auxi$Still.Studying == &quot;Yes&quot;)])
+
+
+ggplot(auxi, aes(x = unlist(Currently.employed), y = numero, fill = Applying.4.job)) +
+  geom_bar( stat=&#39;identity&#39;)  +
+  facet_grid(.~Still.Studying) +
+  labs( fill = &quot;Buscando Trabajo&quot;, x = &quot;Trabajando&quot;, y = &quot;Número&quot;)</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="cuáles-son-las-competencias-que-más-tienen-las-personas-encuestadas-1" class="section level2 hasAnchor" number="3.7">
+<h2><span class="header-section-number">3.7</span> ¿Cuáles son las competencias que más tienen las personas encuestadas?<a href="análisis-y-visualización-de-datos.html#cuáles-son-las-competencias-que-más-tienen-las-personas-encuestadas-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre><code>auxi &lt;- table(unlist(Empleo$Skills))
+auxi &lt;- auxi[order(auxi,decreasing = TRUE)]
+
+
+ggplot(as.data.frame(auxi), aes(x=&quot;&quot;, y=Freq, fill=Var1)) +
+  geom_bar(stat=&quot;identity&quot;, width=1) +
+  coord_polar(&quot;y&quot;, start=0) + 
+  labs(fill = &quot;Competencia&quot;, x = &quot; &quot;, y = &quot; &quot;)
+
+</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Vemos que debe haber otro factor porque, por ejemplo, las personas que no
+trabajan y no estudian, ¿Cómo es posible que estén buscando empleo de forma
+“Casually”?
+Luego en “No trabajando” y “Sí estudiando” los datos son “normales”
+“Sí trabajando” y “No estudiando” es lo que no hemos podido determinar pero
+podría ser que no estuvieran conformes con su trabajo
+Por último, “Sí trabajando” y “Sí estudiando” se podría explicar debido a que
+estén de prácticas empresariales, por ejemplo.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="preprocesamiento-el-bicheo.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="reglas-de-asociación.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-cross-refs.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

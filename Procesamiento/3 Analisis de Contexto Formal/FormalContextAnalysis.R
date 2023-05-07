@@ -3,7 +3,14 @@ library(magrittr)
 library(fcaR)
 
 
-fc_Empleo <- FormalContext$new(Emple01)
+correlationMatrix <- cor(Emple01)
+print(correlationMatrix)
+relacionado <- findCorrelation(correlationMatrix, cutoff=0.5)
+print(relacionado)
+Emple01[-relacionado]
+
+
+fc_Empleo <- FormalContext$new(Emple01[-relacionado])
 
 fc_Empleo$plot()
 
@@ -17,15 +24,11 @@ fc_Empleo$find_concepts()
 fc_Empleo$concepts[which(fc_Empleo$concepts$support()>0.5)]
 
 
-
-
-
 fc_Empleo$find_implications()
 
 
 
+fc_Empleo$implications[which(fc_Empleo$implications$support()>0.2)]
 
-
-fc_Empleo$implications$recommend()
 
 

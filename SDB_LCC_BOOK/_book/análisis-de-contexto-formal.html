@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 5 Análisis de Contexto Formal | Trasteando con R</title>
+  <meta name="description" content="Trabajo perteneciente a la asignatura de Laboratorio de Computación Científica" />
+  <meta name="generator" content="bookdown 0.32 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 5 Análisis de Contexto Formal | Trasteando con R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Trabajo perteneciente a la asignatura de Laboratorio de Computación Científica" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 5 Análisis de Contexto Formal | Trasteando con R" />
+  
+  <meta name="twitter:description" content="Trabajo perteneciente a la asignatura de Laboratorio de Computación Científica" />
+  
+
+<meta name="author" content="Salvador Durán Borrego" />
+
+
+<meta name="date" content="2023-05-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="reglas-de-asociación.html"/>
+<link rel="next" href="clustering.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a></li>
+<li class="chapter" data-level="2" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html"><i class="fa fa-check"></i><b>2</b> Preprocesamiento (el bicheo)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#miscelánea"><i class="fa fa-check"></i><b>2.1</b> Miscelánea</a></li>
+<li class="chapter" data-level="2.2" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#agrupación"><i class="fa fa-check"></i><b>2.2</b> Agrupación</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#work.experience"><i class="fa fa-check"></i><b>2.2.1</b> Work.Experience</a></li>
+<li class="chapter" data-level="2.2.2" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#job.search.problems.grouped"><i class="fa fa-check"></i><b>2.2.2</b> Job.search.problems.grouped</a></li>
+<li class="chapter" data-level="2.2.3" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#dream.company.type"><i class="fa fa-check"></i><b>2.2.3</b> Dream.company.type</a></li>
+<li class="chapter" data-level="2.2.4" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#job.finder"><i class="fa fa-check"></i><b>2.2.4</b> Job.finder</a></li>
+<li class="chapter" data-level="2.2.5" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#studies.grouped.by.level"><i class="fa fa-check"></i><b>2.2.5</b> Studies.grouped.by.level</a></li>
+<li class="chapter" data-level="2.2.6" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#interested.in"><i class="fa fa-check"></i><b>2.2.6</b> Interested.in</a></li>
+<li class="chapter" data-level="2.2.7" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#skills"><i class="fa fa-check"></i><b>2.2.7</b> Skills</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="preprocesamiento-el-bicheo.html"><a href="preprocesamiento-el-bicheo.html#binarización"><i class="fa fa-check"></i><b>2.3</b> Binarización</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html"><i class="fa fa-check"></i><b>3</b> Análisis Y Visualización de Datos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#cuáles-son-las-páginas-más-usadas-para-la-búsqueda-de-empleo"><i class="fa fa-check"></i><b>3.1</b> ¿Cuáles son las páginas más usadas para la búsqueda de empleo?</a></li>
+<li class="chapter" data-level="3.2" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#cuáles-son-las-competencias-que-más-tienen-las-personas-encuestadas"><i class="fa fa-check"></i><b>3.2</b> ¿Cuáles son las competencias que más tienen las personas encuestadas?</a></li>
+<li class="chapter" data-level="3.3" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#hay-diferencias-entre-lo-que-estudian-los-hombres-y-las-mujeres"><i class="fa fa-check"></i><b>3.3</b> ¿Hay diferencias entre lo que estudian los hombres y las mujeres?</a></li>
+<li class="chapter" data-level="3.4" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#marital-status-and-interested-in-freelance"><i class="fa fa-check"></i><b>3.4</b> Marital Status and interested in freelance</a></li>
+<li class="chapter" data-level="3.5" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#age-and-freelance"><i class="fa fa-check"></i><b>3.5</b> Age and freelance</a></li>
+<li class="chapter" data-level="3.6" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#gente-que-trabaja-está-contenta-con-su-trabajo"><i class="fa fa-check"></i><b>3.6</b> “Gente que trabaja está contenta con su trabajo”</a></li>
+<li class="chapter" data-level="3.7" data-path="análisis-y-visualización-de-datos.html"><a href="análisis-y-visualización-de-datos.html#cuáles-son-las-competencias-que-más-tienen-las-personas-encuestadas-1"><i class="fa fa-check"></i><b>3.7</b> ¿Cuáles son las competencias que más tienen las personas encuestadas?</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="reglas-de-asociación.html"><a href="reglas-de-asociación.html"><i class="fa fa-check"></i><b>4</b> Reglas de Asociación</a></li>
+<li class="chapter" data-level="5" data-path="análisis-de-contexto-formal.html"><a href="análisis-de-contexto-formal.html"><i class="fa fa-check"></i><b>5</b> Análisis de Contexto Formal</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-contexto-formal.html"><a href="análisis-de-contexto-formal.html#conceptos"><i class="fa fa-check"></i><b>5.1</b> Conceptos</a></li>
+<li class="chapter" data-level="5.2" data-path="análisis-de-contexto-formal.html"><a href="análisis-de-contexto-formal.html#implicaciones"><i class="fa fa-check"></i><b>5.2</b> Implicaciones</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>6</b> Clustering</a></li>
+<li class="chapter" data-level="7" data-path="reflexión.html"><a href="reflexión.html"><i class="fa fa-check"></i><b>7</b> Reflexión</a></li>
+<li class="chapter" data-level="8" data-path="bibliografía.html"><a href="bibliografía.html"><i class="fa fa-check"></i><b>8</b> Bibliografía</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Trasteando con R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="análisis-de-contexto-formal" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Capítulo 5</span> Análisis de Contexto Formal<a href="análisis-de-contexto-formal.html#análisis-de-contexto-formal" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Ya que la función para buscar implicaciones con este dataset tarda demasiado,
+vamos a quitar todas las variables que estén muy relacionadas entre sí y vamos a crear
+un contexto formal con las variables restantes</p>
+<pre><code>correlationMatrix &lt;- cor(Emple01)
+print(correlationMatrix)
+relacionado &lt;- findCorrelation(correlationMatrix, cutoff=0.5)
+print(relacionado)
+
+
+fc_Empleo &lt;- FormalContext$new(Emple01[-relacionado])
+
+fc_Empleo$plot()</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+Clarificamos (para quitar duplicados) y reducimos (auto-explicativo)</p>
+<pre><code>fc_Empleo$clarify(TRUE)
+fc_Empleo$reduce(TRUE)</code></pre>
+<div id="conceptos" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Conceptos<a href="análisis-de-contexto-formal.html#conceptos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Un concepto es una relación entre atributos y objetos</p>
+<pre><code>fc_Empleo$find_concepts()
+
+
+fc_Empleo$concepts[which(fc_Empleo$concepts$support()&gt;0.5)]</code></pre>
+<p>De aquí tampoco podemos sacar mucho</p>
+</div>
+<div id="implicaciones" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Implicaciones<a href="análisis-de-contexto-formal.html#implicaciones" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<pre><code>fc_Empleo$find_implications()
+
+fc_Empleo$implications[which(fc_Empleo$implications$support()&gt;0.2)]</code></pre>
+<p>Ahora tarda un poco pero es que originalmente se tiraba más de 10 minutos (depende
+de lo potente que sea tu dispositivo)</p>
+<p>Saca 13 implicaciones pero tampoco podemos sacar mucha de estas porque casi todas hablan
+sobre que si eres joven o si estudias algo tecnológico usas mucho Linkedin u otras más variadas
+que hablan sobre el trabajo privado.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="reglas-de-asociación.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="clustering.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-citations.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

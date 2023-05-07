@@ -1,0 +1,26 @@
+{
+    "id": "5EBE49C1",
+    "path": "~/GitHub/genesis/SDB_LCC_BOOK/01-intro.Rmd",
+    "project_path": "01-intro.Rmd",
+    "type": "r_markdown",
+    "hash": "288576537",
+    "contents": "",
+    "dirty": false,
+    "created": 1683483694472.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "624,0",
+        "scrollLine": "602"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1683483671,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1683483671,
+    "read_only": false,
+    "read_only_alternatives": []
+}

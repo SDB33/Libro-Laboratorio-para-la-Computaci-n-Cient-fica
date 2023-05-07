@@ -1,6 +1,3 @@
-library(cluster)
-library(factoextra)
-library(dendextend)   
 
 Emple01 <- Emple01 %>% mutate_all(as.numeric)
 
@@ -29,7 +26,6 @@ Emple01 %>%
 #Haider Abdullah, Shafeeque, Mary Rathna y Athulya Kp son outliers
 
 
-
 auxi2 <- 0
 for (x in c(1:length(rownames(Emple01)))) {
   
@@ -39,9 +35,6 @@ for (x in c(1:length(rownames(Emple01)))) {
 
   auxi2 <- c(auxi2,mean(auxi))
 }
-
-
-
 
 auxi <-  as.data.frame(list(
   Nombres = rownames(Emple01),

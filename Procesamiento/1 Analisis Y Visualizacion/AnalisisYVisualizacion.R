@@ -1,9 +1,3 @@
-library(dplyr)
-library(magrittr)
-library(ggplot2)
-library(rmarkdown)
-library(tidyr)
-
 
 #¿Cuáles son las páginas más usadas para la búsqueda de empleo?
 
